@@ -1,59 +1,56 @@
-# @moonbanking/mcp-server
+# Moon Banking MCP Server
 
-# Welcome to the Moon Banking API!
-
-Enjoy the documentation and happy coding. Share this spec with your LLM of choice to speed up your development, or take a look at our MCP server and various SDKs.
-
-### More information
-
-For more information about the Moon Banking API, please visit the [Moon Banking Documentation](https://docs.moonbanking.com).
-
-This MCP server provides tools to interact with the Moon Banking API API based on OpenAPI specification version 2025-07-11.
+The Moon Banking MCP server is generated from the [OpenAPI specification](https://github.com/moonbanking/moonbanking-openapi).
 
 ## Installation
 
-```bash
-npm install @moonbanking/mcp-server
+### Direct invocation
+
+You can run the MCP Server directly via `npx`:
+
+```sh
+export MOON_BANKING_API_KEY="Bearer mb_sk_..."
+npx -y @moonbanking/mcp-server
 ```
 
-Or use with npx:
+### Via MCP Client
 
-```bash
-npx @moonbanking/mcp-server
-```
+There is a partial list of existing clients at [modelcontextprotocol.io](https://modelcontextprotocol.io/clients). If you already
+have a client, consult their documentation to install the MCP server.
 
-## Configuration
-
-### Required Environment Variables
-
-- `MOON_BANKING_API_KEY`: Your API key for authentication
-
-### Optional Environment Variables
-
-- `MOON_BANKING_INTERNAL_BASE_URL`: Custom base URL (defaults to https://api.moonbanking.com/v1)
-
-## Usage
-
-### With MCP Client
-
-Add to your MCP client configuration:
+For clients with a configuration JSON, it might look something like this:
 
 ```json
 {
   "mcpServers": {
-    "mcp-server": {
+    "moonbanking_api": {
       "command": "npx",
       "args": ["-y", "@moonbanking/mcp-server"],
       "env": {
-        "MOON_BANKING_API_KEY": "your-api-key-here",
-        "MOON_BANKING_INTERNAL_BASE_URL": "https://api.moonbanking.com/v1"
+        "MOON_BANKING_API_KEY": "Bearer mb_sk_..."
       }
     }
   }
 }
 ```
 
-### Filter Specific Tools
+### Cursor
+
+If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
+in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
+
+[![Add to Cursor](https://cursor.com/en-US/install-mcp?name=moonbanking-mcp&config=eyJlbnYiOnsiTU9PTl9CQU5LSU5HX0FQSV9LRVkiOiJTZXQgeW91ciBNT09OX0JBTktJTkdfQVBJX0tFWSBoZXJlLiJ9LCJjb21tYW5kIjoibnB4IC15IEBtb29uYmFua2luZy9tY3Atc2VydmVyIn0%3D)
+
+### Claude Code
+
+If you use Claude Code, you can install the MCP server by running the command below in your terminal. You will need to set your
+environment variables in Claude Code's `claude.json`, which can be found in your home directory.
+
+```
+claude mcp add --transport stdio moonbanking_api --env MOON_BANKING_API_KEY="Your MOON_BANKING_API_KEY here." -- npx -y @moonbanking/mcp-server
+```
+
+## Filter Specific Tools
 
 You can limit which tools are exposed by using the `--tool` flag:
 

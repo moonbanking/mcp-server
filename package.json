@@ -1,6 +1,6 @@
 {
   "name": "@moonbanking/mcp-server",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "# Welcome to the Moon Banking API!\n\nEnjoy the documentation and happy coding. Share this spec with your LLM of choice to speed up your development, or take a look at our MCP server and various SDKs.\n\n### More information\n\nFor more information about the Moon Banking API, please visit the [Moon Banking Documentation](https://docs.moonbanking.com).",
   "main": "dist/index.js",
   "bin": {
