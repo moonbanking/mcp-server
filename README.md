@@ -39,12 +39,12 @@ For clients with a configuration JSON, it might look something like this:
 If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
 in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
 
-[![Add to Cursor](https://cursor.com/en-US/install-mcp?name=moonbanking-mcp&config=eyJlbnYiOnsiTU9PTl9CQU5LSU5HX0FQSV9LRVkiOiJTZXQgeW91ciBNT09OX0JBTktJTkdfQVBJX0tFWSBoZXJlLiJ9LCJjb21tYW5kIjoibnB4IC15IEBtb29uYmFua2luZy9tY3Atc2VydmVyIn0%3D)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=moonbanking-mcp&config=eyJlbnYiOnsiTU9PTl9CQU5LSU5HX0FQSV9LRVkiOiJTZXQgeW91ciBNT09OX0JBTktJTkdfQVBJX0tFWSBoZXJlLiJ9LCJjb21tYW5kIjoibnB4IC15IEBtb29uYmFua2luZy9tY3Atc2VydmVyIn0%3D)
 
 ### Claude Code
 
 If you use Claude Code, you can install the MCP server by running the command below in your terminal. You will need to set your
-environment variables in Claude Code's `claude.json`, which can be found in your home directory.
+environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
 claude mcp add --transport stdio moonbanking_api --env MOON_BANKING_API_KEY="Your MOON_BANKING_API_KEY here." -- npx -y @moonbanking/mcp-server
