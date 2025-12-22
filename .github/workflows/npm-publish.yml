@@ -17,7 +17,7 @@ jobs:
     name: Build and Publish to npm
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # Required for creating releases
       id-token: write # Required for npm provenance
     steps:
       - name: Checkout code
