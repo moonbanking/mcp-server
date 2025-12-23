@@ -72,7 +72,7 @@ const apiCall = async (
 // Tool definitions
 const tools = [
   {
-    "name": "bank-get",
+    "name": "bank_get",
     "description": "This endpoint allows you to retrieve a paginated list of all banks. By default, a maximum of ten banks are shown per page. You can search banks by name, filter by country and description (including null/not_null status or semantic content search using vector embeddings), sort them by various fields, and include related data like scores and country information. When searching description content, results are ordered by semantic similarity.",
     "inputSchema": {
       "type": "object",
@@ -195,7 +195,7 @@ const tools = [
     }
   },
   {
-    "name": "bank-getById",
+    "name": "bank_getById",
     "description": "This endpoint allows you to retrieve a specific bank by providing the bank ID. You can include related data like scores and country information in the response.",
     "inputSchema": {
       "type": "object",
@@ -215,7 +215,7 @@ const tools = [
     }
   },
   {
-    "name": "bankVote-get",
+    "name": "bankVote_get",
     "description": "This endpoint allows you to retrieve a paginated list of bank votes. You can filter by bank ID, category, country, vote type (upvote or downvote), and other parameters.",
     "inputSchema": {
       "type": "object",
@@ -274,7 +274,7 @@ const tools = [
     }
   },
   {
-    "name": "country-get",
+    "name": "country_get",
     "description": "This endpoint allows you to retrieve a paginated list of all countries. By default, a maximum of ten countries are shown per page. You can search countries by name or 2-letter code, sort them by various fields, and include related data like scores.",
     "inputSchema": {
       "type": "object",
@@ -385,7 +385,7 @@ const tools = [
     }
   },
   {
-    "name": "country-getByCountryCode",
+    "name": "country_getByCountryCode",
     "description": "This endpoint allows you to retrieve a specific country by providing the 2-letter ISO country code. You can include related data like scores in the response.",
     "inputSchema": {
       "type": "object",
@@ -405,7 +405,7 @@ const tools = [
     }
   },
   {
-    "name": "story-get",
+    "name": "story_get",
     "description": "This endpoint allows you to retrieve a paginated list of all stories. By default, a maximum of ten stories are shown per page. You can search stories by text content, filter by bank ID, sort them by various fields, and include related data like bank and country information.",
     "inputSchema": {
       "type": "object",
@@ -465,7 +465,7 @@ const tools = [
     }
   },
   {
-    "name": "story-getById",
+    "name": "story_getById",
     "description": "This endpoint allows you to retrieve a specific story by providing the story ID. You can include related data like bank and country information in the response.",
     "inputSchema": {
       "type": "object",
@@ -485,7 +485,7 @@ const tools = [
     }
   },
   {
-    "name": "world-getOverview",
+    "name": "world_getOverview",
     "description": "This endpoint allows you to retrieve global overview data that aggregates banks votes, stories and other data across all banks in all countries. You can include related data like scores in the response.",
     "inputSchema": {
       "type": "object",
@@ -538,7 +538,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     switch (name) {
-      case 'bank-get': {
+      case 'bank_get': {
         const result = await apiCall(
           'GET',
           `/banks`,
@@ -569,7 +569,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case 'bank-getById': {
+      case 'bank_getById': {
         const result = await apiCall(
           'GET',
           `/banks/${args.id}`,
@@ -591,7 +591,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case 'bankVote-get': {
+      case 'bankVote_get': {
         const result = await apiCall(
           'GET',
           `/bank-votes`,
@@ -622,7 +622,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case 'country-get': {
+      case 'country_get': {
         const result = await apiCall(
           'GET',
           `/countries`,
@@ -650,7 +650,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case 'country-getByCountryCode': {
+      case 'country_getByCountryCode': {
         const result = await apiCall(
           'GET',
           `/countries/${args.code}`,
@@ -672,7 +672,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case 'story-get': {
+      case 'story_get': {
         const result = await apiCall(
           'GET',
           `/stories`,
@@ -703,7 +703,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case 'story-getById': {
+      case 'story_getById': {
         const result = await apiCall(
           'GET',
           `/stories/${args.id}`,
@@ -725,7 +725,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      case 'world-getOverview': {
+      case 'world_getOverview': {
         const result = await apiCall(
           'GET',
           `/world`,
