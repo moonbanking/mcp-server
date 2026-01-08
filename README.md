@@ -68,6 +68,7 @@ npx @moonbanking/mcp-server --tool=tool1 --tool=tool2
 - `story_get`: This endpoint allows you to retrieve a paginated list of all stories. By default, a maximum of ten stories are shown per page. You can search stories by text content, filter by bank ID, sort them by various fields, and include related data like bank and country information.
 - `story_getById`: This endpoint allows you to retrieve a specific story by providing the story ID. You can include related data like bank and country information in the response.
 - `world_getOverview`: This endpoint allows you to retrieve global overview data that aggregates banks votes, stories and other data across all banks in all countries. You can include related data like scores in the response.
+- `search_get`: Search across banks, countries, and stories. You can specify which entities to search using the include parameter. If no include value is provided, all entities will be searched.
 
 ## License
 

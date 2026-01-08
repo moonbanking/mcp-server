@@ -90,14 +90,6 @@ const tools = [
           "type": "string",
           "description": "Cursor for backward pagination. Use the id of the first item from the current page to get the previous page."
         },
-        "search": {
-          "type": "string",
-          "description": "Search banks by name."
-        },
-        "description": {
-          "type": "string",
-          "description": "Filter banks by description. Under the hood, this is a semantic search that uses vector embeddings, so you may get better results if you use general language. Besides a full text search, you can use \"null\" to return banks without descriptions or \"not_null\" to return banks with descriptions."
-        },
         "sortBy": {
           "type": "string",
           "description": "Field to sort by.",
@@ -496,6 +488,31 @@ const tools = [
         }
       }
     }
+  },
+  {
+    "name": "search_get",
+    "description": "Search across banks, countries, and stories. You can specify which entities to search using the include parameter. If no include value is provided, all entities will be searched.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Search query string."
+        },
+        "include": {
+          "type": "string",
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `banks`, `countries`, `stories`"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return per entity type.",
+          "default": 10
+        }
+      },
+      "required": [
+        "q"
+      ]
+    }
   }
 ];
 
@@ -547,8 +564,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               limit: args.limit,
               starting_after: args.starting_after,
               ending_before: args.ending_before,
-              search: args.search,
-              description: args.description,
               sortBy: args.sortBy,
               sortOrder: args.sortOrder,
               include: args.include,
@@ -732,6 +747,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           {
             params: {
               include: args.include,
+            },
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'search_get': {
+        const result = await apiCall(
+          'GET',
+          `/search`,
+          {
+            params: {
+              q: args.q,
+              include: args.include,
+              limit: args.limit,
             },
 
           },
