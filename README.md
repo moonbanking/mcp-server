@@ -60,7 +60,7 @@ npx @moonbanking/mcp-server --tool=tool1 --tool=tool2
 
 ## Available Tools
 
-- `bank_get`: This endpoint allows you to retrieve a paginated list of all banks. By default, a maximum of ten banks are shown per page. You can search banks by name, filter by country and description (including null/not_null status or semantic content search using vector embeddings), sort them by various fields, and include related data like scores and country information. When searching description content, results are ordered by semantic similarity.
+- `bank_get`: This endpoint allows you to retrieve a paginated list of all banks. By default, a maximum of ten banks are shown per page. You can search banks by name, filter by country, sort them by various fields, and include related data like scores and country information.
 - `bank_getById`: This endpoint allows you to retrieve a specific bank by providing the bank ID. You can include related data like scores and country information in the response.
 - `bankVote_get`: This endpoint allows you to retrieve a paginated list of bank votes. You can filter by bank ID, category, country, vote type (upvote or downvote), and other parameters.
 - `country_get`: This endpoint allows you to retrieve a paginated list of all countries. By default, a maximum of ten countries are shown per page. You can search countries by name or 2-letter code, sort them by various fields, and include related data like scores.
