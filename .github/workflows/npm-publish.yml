@@ -30,6 +30,9 @@ jobs:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Update npm to latest
+        run: npm install -g npm@latest
+
       - name: Get package version
         id: package_version
         run: |
@@ -80,7 +83,7 @@ jobs:
         if: |
           steps.check_version.outputs.exists == 'false' &&
           (github.event_name == 'push' || github.event.inputs.dry_run == 'false')
-        run: npm publish --provenance --access public
+        run: npm publish --access public
 
       - name: Create GitHub Release
         if: |
