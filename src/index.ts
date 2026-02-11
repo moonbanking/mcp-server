@@ -72,6 +72,30 @@ const apiCall = async (
 // Tool definitions
 const tools = [
   {
+    "name": "bank_getByHostname",
+    "description": "This endpoint allows you to retrieve banks by hostname. It will return up to one bank per country that matches the provided hostname. The hostname is normalized (www. prefix removed if present) and matched against both the primary hostname and alternative hostnames.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "The hostname to search for (e.g., \"chase.com\" or \"www.chase.com\")."
+        },
+        "include": {
+          "type": "string",
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `scores`, `country`"
+        },
+        "pageTitle": {
+          "type": "string",
+          "description": "The title of the web page."
+        }
+      },
+      "required": [
+        "hostname"
+      ]
+    }
+  },
+  {
     "name": "bank_get",
     "description": "This endpoint allows you to retrieve a paginated list of all banks. By default, a maximum of ten banks are shown per page. You can search banks by name, filter by country, sort them by various fields, and include related data like scores and country information.",
     "inputSchema": {
@@ -89,6 +113,10 @@ const tools = [
         "ending_before": {
           "type": "string",
           "description": "Cursor for backward pagination. Use the id of the first item from the current page to get the previous page."
+        },
+        "search": {
+          "type": "string",
+          "description": "Search banks by name."
         },
         "sortBy": {
           "type": "string",
@@ -555,6 +583,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     switch (name) {
+      case 'bank_getByHostname': {
+        const result = await apiCall(
+          'GET',
+          `/banks/by-hostname`,
+          {
+            params: {
+              hostname: args.hostname,
+              include: args.include,
+              pageTitle: args.pageTitle,
+            },
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
       case 'bank_get': {
         const result = await apiCall(
           'GET',
@@ -564,6 +616,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               limit: args.limit,
               starting_after: args.starting_after,
               ending_before: args.ending_before,
+              search: args.search,
               sortBy: args.sortBy,
               sortOrder: args.sortOrder,
               include: args.include,
