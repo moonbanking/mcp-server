@@ -79,7 +79,7 @@ const tools = [
       "properties": {
         "hostname": {
           "type": "string",
-          "description": "The hostname to search for (e.g., \"chase.com\" or \"www.chase.com\")."
+          "description": "The hostname to search for (e.g., \"fidelity.com\" or \"www.fidelity.com\")."
         },
         "include": {
           "type": "string",
