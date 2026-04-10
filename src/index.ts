@@ -235,6 +235,31 @@ const tools = [
     }
   },
   {
+    "name": "bank_semanticSearch",
+    "description": "Search for banks by describing what you are looking for in natural language. This searches across bank descriptions including services offered, history, location, unique features, and institution type. Use this when the user asks about banks with specific characteristics, services, or qualities.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "A detailed, specific natural language sentence describing what the user is looking for. Combine all relevant context: location, institution type, user occupation or eligibility, services needed, and any preferences. Write a full descriptive sentence, NOT a keyword list."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of bank results to return.",
+          "default": 10
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "Filter results to banks in this country (ISO 3166-1 code)."
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
     "name": "bankVote_get",
     "description": "This endpoint allows you to retrieve a paginated list of bank votes. You can filter by bank ID, category, country, vote type (upvote or downvote), and other parameters.",
     "inputSchema": {
@@ -644,6 +669,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           {
             params: {
               include: args.include,
+            },
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bank_semanticSearch': {
+        const result = await apiCall(
+          'GET',
+          `/banks/semantic-search`,
+          {
+            params: {
+              query: args.query,
+              limit: args.limit,
+              countryCode: args.countryCode,
             },
 
           },
