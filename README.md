@@ -1,8 +1,72 @@
 # Moon Banking MCP Server
 
-The Moon Banking MCP server is generated from the [OpenAPI specification](https://github.com/moonbanking/moonbanking-openapi).
+Moon Banking is a global directory of consumer and business banks with structured, community-rated scores across 14 categories — customer service, fees & pricing, digital experience, crypto friendliness, security & trust, lending, business banking, international banking, transparency, and more. The Moon Banking MCP server exposes that entire dataset — every bank, country, score, vote, and user story — as live tools your AI agent can call, so answers about real-world banking are grounded in fresh Moon Banking data instead of stale training-set guesses.
 
-## Installation
+Once connected, you can ask questions like *"which crypto-friendly banks operate in Brazil?"*, *"compare digital-experience scores for the top US challenger banks"*, or *"summarize recent user stories about fees at HSBC UK"* and get tool-grounded, citable answers backed by the same data that powers [moonbanking.com](https://moonbanking.com).
+
+The server is generated from the public [OpenAPI specification](https://github.com/moonbanking/moonbanking-openapi) and ships as both a hosted OAuth endpoint at `https://mcp.moonbanking.com/mcp` and a stdio npm package (`@moonbanking/mcp-server`) — so you can connect it to Claude, Cursor, Grok, ChatGPT, VS Code, Windsurf, Zed, and any other [Model Context Protocol](https://modelcontextprotocol.io) client.
+
+## Client-specific setup guides
+
+If you just want to wire Moon Banking up to a specific client, jump straight to its guide. Each one covers both the hosted OAuth setup and the self-hosted stdio fallback.
+
+| Client | Guide |
+| --- | --- |
+| Claude (Desktop & web) | [claude](./claude.md) |
+| Claude Code | [claude-code](./claude-code.md) |
+| Cursor | [cursor](./cursor.md) |
+| Windsurf | [windsurf](./windsurf.md) |
+| VS Code (GitHub Copilot) | [vscode](./vscode.md) |
+| Zed | [zed](./zed.md) |
+| ChatGPT | [chatgpt](./chatgpt.md) |
+| Grok (xAI) | [grok](./grok.md) |
+| MCP Inspector (testing) | [mcp-inspector](./mcp-inspector.md) |
+
+The rest of this README covers the underlying authentication options and configuration shapes.
+
+## Authentication
+
+You can connect to Moon Banking over MCP using **either** of two auth methods:
+
+| Method | Best for | API key required? |
+| --- | --- | --- |
+| **Hosted OAuth server** (recommended) | Claude, Cursor, Grok, ChatGPT, and any MCP client that supports remote/streamable HTTP MCP. Users sign in to Moon Banking in a browser — no key handling. | No |
+| **Self-hosted stdio package** (this npm package) | Local scripts, agents, or clients that only support stdio MCP. | Yes |
+
+Both methods expose the same tool surface; pick whichever matches your client.
+
+## Hosted MCP server (OAuth)
+
+URL: `https://mcp.moonbanking.com/mcp` (Streamable HTTP, OAuth 2.0 with Dynamic Client Registration).
+
+Most modern MCP clients can connect by simply pointing at the URL — they will pop a browser window for the user to sign in to Moon Banking and obtain an access token automatically. No API key is exchanged or stored on the client side.
+
+```json
+{
+  "mcpServers": {
+    "moonbanking": {
+      "url": "https://mcp.moonbanking.com/mcp"
+    }
+  }
+}
+```
+
+For clients that don't yet speak remote MCP natively (eg. older ChatGPT configurations), the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) bridge can wrap the hosted endpoint as a stdio command:
+
+```json
+{
+  "mcpServers": {
+    "moonbanking": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.moonbanking.com/mcp"]
+    }
+  }
+}
+```
+
+## Self-hosted (API key)
+
+If you prefer to run the MCP server locally as a stdio process — for example to embed it in an automation that doesn't have a browser available for OAuth — install this npm package and authenticate with a Moon Banking API key.
 
 ### Direct invocation
 
@@ -32,22 +96,6 @@ For clients with a configuration JSON, it might look something like this:
     }
   }
 }
-```
-
-### Cursor
-
-If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
-in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
-
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=moonbanking-mcp&config=eyJlbnYiOnsiTU9PTl9CQU5LSU5HX0FQSV9LRVkiOiJTZXQgeW91ciBNT09OX0JBTktJTkdfQVBJX0tFWSBoZXJlLiJ9LCJjb21tYW5kIjoibnB4IC15IEBtb29uYmFua2luZy9tY3Atc2VydmVyIn0%3D)
-
-### Claude Code
-
-If you use Claude Code, you can install the MCP server by running the command below in your terminal. You will need to set your
-environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
-
-```
-claude mcp add --transport stdio moonbanking_api --env MOON_BANKING_API_KEY="Your MOON_BANKING_API_KEY here." -- npx -y @moonbanking/mcp-server
 ```
 
 ## Filter Specific Tools
