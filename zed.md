@@ -67,6 +67,10 @@ The Moon Banking MCP server exposes the following tools (identical across every 
 - `story_get`
 - `story_getById`
 - `world_getOverview`
+- `market_get`
+- `market_getById`
+- `stock_get`
+- `stock_getById`
 - `search_get`
 
 Full descriptions live on the [main MCP page](./README.md).
