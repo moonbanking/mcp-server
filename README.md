@@ -4,7 +4,7 @@ Moon Banking is a global directory of consumer and business banks with structure
 
 Once connected, you can ask questions like *"which crypto-friendly banks operate in Brazil?"*, *"compare digital-experience scores for the top US challenger banks"*, or *"summarize recent user stories about fees at HSBC UK"* and get tool-grounded, citable answers backed by the same data that powers [moonbanking.com](https://moonbanking.com).
 
-The server is generated from the public [OpenAPI specification](https://github.com/moonbanking/moonbanking-openapi) and ships as both a hosted OAuth endpoint at `https://mcp.moonbanking.com/mcp` and a stdio npm package (`@moonbanking/mcp-server`) — so you can connect it to Claude, Cursor, Grok, ChatGPT, VS Code, Windsurf, Zed, and any other [Model Context Protocol](https://modelcontextprotocol.io) client.
+The server is generated from the public [OpenAPI specification](https://github.com/moonbanking/moonbanking-openapi) and ships as both a hosted OAuth endpoint at `https://mcp.moonbanking.com/mcp` and a stdio npm package (`@moonbanking/mcp-server`) — so you can connect it to Claude, Cursor, Grok, ChatGPT, VS Code, Devin Desktop (formerly Windsurf), Zed, and any other [Model Context Protocol](https://modelcontextprotocol.io) client.
 
 ## Client-specific setup guides
 
@@ -15,7 +15,7 @@ If you just want to wire Moon Banking up to a specific client, jump straight to 
 | Claude (Desktop & web) | [claude](./claude.md) |
 | Claude Code | [claude-code](./claude-code.md) |
 | Cursor | [cursor](./cursor.md) |
-| Windsurf | [windsurf](./windsurf.md) |
+| Devin Desktop (formerly Windsurf) | [devin-desktop](./devin-desktop.md) |
 | VS Code (GitHub Copilot) | [vscode](./vscode.md) |
 | Zed | [zed](./zed.md) |
 | ChatGPT | [chatgpt](./chatgpt.md) |
@@ -118,7 +118,11 @@ npx @moonbanking/mcp-server --tool=tool1 --tool=tool2
 - `story_get`: This endpoint allows you to retrieve a paginated list of all stories. By default, a maximum of ten stories are shown per page. You can search stories by text content, filter by bank ID, sort them by various fields, and include related data like bank and country information.
 - `story_getById`: This endpoint allows you to retrieve a specific story by providing the story ID. You can include related data like bank and country information in the response.
 - `world_getOverview`: This endpoint allows you to retrieve global overview data that aggregates banks votes, stories and other data across all banks in all countries. You can include related data like scores in the response.
-- `search_get`: Search across banks, countries, and stories. You can specify which entities to search using the include parameter. If no include value is provided, all entities will be searched.
+- `market_get`: This endpoint allows you to retrieve a paginated list of markets (e.g. stock exchanges). You can search by name or code, filter by exact code, country, or market type, and sort the results.
+- `market_getById`: This endpoint allows you to retrieve a specific market (e.g. stock exchange) by providing the market id.
+- `stock_get`: This endpoint allows you to retrieve a paginated list of stock listings. You can search by ticker symbol, filter by exact symbol, market, bank, or primary-listing status, and sort the results.
+- `stock_getById`: This endpoint allows you to retrieve a specific stock listing by providing the stock id. You can optionally include the associated `market` and/or `bank` as nested objects.
+- `search_get`: Search across banks, countries, stories, and stocks. You can specify which entities to search using the include parameter. If no include value is provided, all entities will be searched. Banks are also matched on the ticker symbol of their stock listings, so searching `BAC` returns Bank of America.
 
 ## License
 

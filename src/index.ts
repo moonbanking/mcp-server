@@ -201,7 +201,7 @@ const tools = [
         },
         "include": {
           "type": "string",
-          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `scores`, `country`, `meta`"
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `scores`, `country`, `meta`, `stocks`"
         },
         "countryId": {
           "type": "string",
@@ -226,7 +226,7 @@ const tools = [
         },
         "include": {
           "type": "string",
-          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `scores`, `country`"
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `scores`, `country`, `stocks`"
         }
       },
       "required": [
@@ -543,8 +543,168 @@ const tools = [
     }
   },
   {
+    "name": "market_get",
+    "description": "This endpoint allows you to retrieve a paginated list of markets (e.g. stock exchanges). You can search by name or code, filter by exact code, country, or market type, and sort the results.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Number of items to return.",
+          "default": 10
+        },
+        "starting_after": {
+          "type": "string",
+          "description": "Cursor for forward pagination. Use the id of the last item from the previous page to get the next page."
+        },
+        "ending_before": {
+          "type": "string",
+          "description": "Cursor for backward pagination. Use the id of the first item from the current page to get the previous page."
+        },
+        "search": {
+          "type": "string",
+          "description": "Search markets by name or code."
+        },
+        "code": {
+          "type": "string",
+          "description": "Filter by exact market code (case sensitive)."
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "Filter by 2-letter ISO country code."
+        },
+        "type": {
+          "type": "string",
+          "description": "Filter by market type.",
+          "enum": [
+            "STOCK"
+          ]
+        },
+        "sortBy": {
+          "type": "string",
+          "description": "Field to sort by.",
+          "enum": [
+            "name",
+            "code",
+            "createdAt"
+          ],
+          "default": "name"
+        },
+        "sortOrder": {
+          "type": "string",
+          "description": "Sort order. Either ascending or descending.",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "default": "asc"
+        }
+      }
+    }
+  },
+  {
+    "name": "market_getById",
+    "description": "This endpoint allows you to retrieve a specific market (e.g. stock exchange) by providing the market id.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The stock exchange's auto-generated unique identifier."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "name": "stock_get",
+    "description": "This endpoint allows you to retrieve a paginated list of stock listings. You can search by ticker symbol, filter by exact symbol, market, bank, or primary-listing status, and sort the results.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Number of items to return.",
+          "default": 10
+        },
+        "starting_after": {
+          "type": "string",
+          "description": "Cursor for forward pagination. Use the id of the last item from the previous page to get the next page."
+        },
+        "ending_before": {
+          "type": "string",
+          "description": "Cursor for backward pagination. Use the id of the first item from the current page to get the previous page."
+        },
+        "search": {
+          "type": "string",
+          "description": "Search stocks by ticker symbol."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Filter by exact ticker symbol (case sensitive)."
+        },
+        "marketId": {
+          "type": "string",
+          "description": "Filter by the id of the market this stock trades on."
+        },
+        "bankId": {
+          "type": "string",
+          "description": "Filter by the id of the bank this stock belongs to."
+        },
+        "isPrimary": {
+          "type": "boolean",
+          "description": "Filter by whether the listing is the bank's primary stock."
+        },
+        "sortBy": {
+          "type": "string",
+          "description": "Field to sort by.",
+          "enum": [
+            "symbol",
+            "createdAt"
+          ],
+          "default": "symbol"
+        },
+        "sortOrder": {
+          "type": "string",
+          "description": "Sort order. Either ascending or descending.",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "default": "asc"
+        },
+        "include": {
+          "type": "string",
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `market`, `bank`"
+        }
+      }
+    }
+  },
+  {
+    "name": "stock_getById",
+    "description": "This endpoint allows you to retrieve a specific stock listing by providing the stock id. You can optionally include the associated `market` and/or `bank` as nested objects.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The stock's auto-generated unique identifier."
+        },
+        "include": {
+          "type": "string",
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `market`, `bank`"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
     "name": "search_get",
-    "description": "Search across banks, countries, and stories. You can specify which entities to search using the include parameter. If no include value is provided, all entities will be searched.",
+    "description": "Search across banks, countries, stories, and stocks. You can specify which entities to search using the include parameter. If no include value is provided, all entities will be searched. Banks are also matched on the ticker symbol of their stock listings, so searching `BAC` returns Bank of America.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -554,7 +714,7 @@ const tools = [
         },
         "include": {
           "type": "string",
-          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `banks`, `countries`, `stories`"
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `banks`, `countries`, `stories`, `stocks`"
         },
         "limit": {
           "type": "integer",
@@ -846,6 +1006,110 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const result = await apiCall(
           'GET',
           `/world`,
+          {
+            params: {
+              include: args.include,
+            },
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'market_get': {
+        const result = await apiCall(
+          'GET',
+          `/markets`,
+          {
+            params: {
+              limit: args.limit,
+              starting_after: args.starting_after,
+              ending_before: args.ending_before,
+              search: args.search,
+              code: args.code,
+              countryCode: args.countryCode,
+              type: args.type,
+              sortBy: args.sortBy,
+              sortOrder: args.sortOrder,
+            },
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'market_getById': {
+        const result = await apiCall(
+          'GET',
+          `/markets/${args.id}`,
+          {
+
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'stock_get': {
+        const result = await apiCall(
+          'GET',
+          `/stocks`,
+          {
+            params: {
+              limit: args.limit,
+              starting_after: args.starting_after,
+              ending_before: args.ending_before,
+              search: args.search,
+              symbol: args.symbol,
+              marketId: args.marketId,
+              bankId: args.bankId,
+              isPrimary: args.isPrimary,
+              sortBy: args.sortBy,
+              sortOrder: args.sortOrder,
+              include: args.include,
+            },
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'stock_getById': {
+        const result = await apiCall(
+          'GET',
+          `/stocks/${args.id}`,
           {
             params: {
               include: args.include,
