@@ -50,6 +50,13 @@ The Moon Banking MCP server exposes the following tools (identical across every 
 - `bank_getById`
 - `bank_semanticSearch`
 - `bankVote_get`
+- `bankProduct_list`
+- `bankProduct_listByBank`
+- `bankProduct_create`
+- `bankProduct_listForOwnedBank`
+- `bankProduct_update`
+- `bankProduct_delete`
+- `bankProduct_setStatus`
 - `country_get`
 - `country_getByCountryCode`
 - `story_get`

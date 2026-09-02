@@ -319,6 +319,550 @@ const tools = [
     }
   },
   {
+    "name": "bankProduct_list",
+    "description": "This endpoint allows you to retrieve a paginated list of published bank products across all banks, so you can compare rates and terms between institutions. Filter by bank, country, category, type, currency, and rate, and sort by rate to find the most competitive offers. Products are supplied and maintained by each bank's own verified representatives. Every product includes the name of the bank that offers it.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Number of items to return.",
+          "default": 10
+        },
+        "starting_after": {
+          "type": "string",
+          "description": "Cursor for forward pagination. Use the id of the last item from the previous page to get the next page."
+        },
+        "ending_before": {
+          "type": "string",
+          "description": "Cursor for backward pagination. Use the id of the first item from the current page to get the previous page."
+        },
+        "bankId": {
+          "type": "string",
+          "description": "Filter by the id of the bank that offers the product."
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "Filter by the ISO country code of the bank offering the product."
+        },
+        "categories": {
+          "type": "string",
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `ACCOUNT`, `CARD`, `LOAN`, `INVESTMENT`, `INSURANCE`, `SERVICE`, `OTHER`"
+        },
+        "types": {
+          "type": "string",
+          "description": "An optional  comma-separated list of fields to include in the response. Possible values: `CHECKING_ACCOUNT`, `SAVINGS_ACCOUNT`, `MONEY_MARKET_ACCOUNT`, `CERTIFICATE_OF_DEPOSIT`, `BUSINESS_CHECKING_ACCOUNT`, `BUSINESS_SAVINGS_ACCOUNT`, `YOUTH_ACCOUNT`, `CREDIT_CARD`, `DEBIT_CARD`, `BUSINESS_CREDIT_CARD`, `SECURED_CREDIT_CARD`, `PREPAID_CARD`, `PERSONAL_LOAN`, `AUTO_LOAN`, `MORTGAGE`, `HOME_EQUITY_LOAN`, `HOME_EQUITY_LINE_OF_CREDIT`, `STUDENT_LOAN`, `BUSINESS_LOAN`, `LINE_OF_CREDIT`, `CONSTRUCTION_LOAN`, `BROKERAGE_ACCOUNT`, `RETIREMENT_ACCOUNT`, `WEALTH_MANAGEMENT`, `INSURANCE`, `WIRE_TRANSFER`, `FOREIGN_EXCHANGE`, `MERCHANT_SERVICES`, `TREASURY_MANAGEMENT`, `SAFE_DEPOSIT_BOX`, `ONLINE_BANKING`, `MOBILE_BANKING`, `CRYPTO_SERVICE`, `OTHER`"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Filter by the ISO 4217 currency code the product is denominated in."
+        },
+        "search": {
+          "type": "string",
+          "description": "Search products by name."
+        },
+        "minRatePercent": {
+          "type": "number",
+          "description": "Only return products whose rate reaches at least this percentage. A product matches on either its headline rate or the top of its rate range."
+        },
+        "maxRatePercent": {
+          "type": "number",
+          "description": "Only return products whose rate is no higher than this percentage. A product matches on either its headline rate or the bottom of its rate range."
+        },
+        "sortBy": {
+          "type": "string",
+          "description": "Field to sort by. Products that leave the sorted field empty are always returned last.",
+          "enum": [
+            "ratePercent",
+            "name",
+            "effectiveDate",
+            "createdAt",
+            "updatedAt"
+          ],
+          "default": "ratePercent"
+        },
+        "sortOrder": {
+          "type": "string",
+          "description": "Sort order. Either ascending or descending.",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "default": "desc"
+        }
+      }
+    }
+  },
+  {
+    "name": "bankProduct_listByBank",
+    "description": "This endpoint allows you to retrieve the products and services a bank publishes on its Moon Banking profile, such as deposit accounts, loans, and credit cards. Products are supplied and maintained by the bank's own verified representatives. Only published products are returned; drafts, archived entries, and anything removed by the Moon Banking team are excluded.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "bankId": {
+          "type": "string",
+          "description": "The bank's auto-generated unique identifier."
+        }
+      },
+      "required": [
+        "bankId"
+      ]
+    }
+  },
+  {
+    "name": "bankProduct_create",
+    "description": "This endpoint allows a bank's verified representatives to add a product to the bank's profile. Products default to published and appear on the bank's public page immediately. Pass `status` as `DRAFT` to stage a product without publishing it. You must be an approved representative of the bank.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "bankId": {
+          "type": "string",
+          "description": "The bank's auto-generated unique identifier."
+        },
+        "category": {
+          "type": "string",
+          "description": "The broad category the product belongs to. Drives how the product is grouped on the bank's page.",
+          "enum": [
+            "ACCOUNT",
+            "CARD",
+            "LOAN",
+            "INVESTMENT",
+            "INSURANCE",
+            "SERVICE",
+            "OTHER"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "description": "The specific kind of product.",
+          "enum": [
+            "CHECKING_ACCOUNT",
+            "SAVINGS_ACCOUNT",
+            "MONEY_MARKET_ACCOUNT",
+            "CERTIFICATE_OF_DEPOSIT",
+            "BUSINESS_CHECKING_ACCOUNT",
+            "BUSINESS_SAVINGS_ACCOUNT",
+            "YOUTH_ACCOUNT",
+            "CREDIT_CARD",
+            "DEBIT_CARD",
+            "BUSINESS_CREDIT_CARD",
+            "SECURED_CREDIT_CARD",
+            "PREPAID_CARD",
+            "PERSONAL_LOAN",
+            "AUTO_LOAN",
+            "MORTGAGE",
+            "HOME_EQUITY_LOAN",
+            "HOME_EQUITY_LINE_OF_CREDIT",
+            "STUDENT_LOAN",
+            "BUSINESS_LOAN",
+            "LINE_OF_CREDIT",
+            "CONSTRUCTION_LOAN",
+            "BROKERAGE_ACCOUNT",
+            "RETIREMENT_ACCOUNT",
+            "WEALTH_MANAGEMENT",
+            "INSURANCE",
+            "WIRE_TRANSFER",
+            "FOREIGN_EXCHANGE",
+            "MERCHANT_SERVICES",
+            "TREASURY_MANAGEMENT",
+            "SAFE_DEPOSIT_BOX",
+            "ONLINE_BANKING",
+            "MOBILE_BANKING",
+            "CRYPTO_SERVICE",
+            "OTHER"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "The product's marketing name."
+        },
+        "summary": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "Whether the product is a draft, published to the bank's page, or archived.",
+          "enum": [
+            "DRAFT",
+            "PUBLISHED",
+            "ARCHIVED"
+          ]
+        },
+        "rateType": {
+          "type": "string",
+          "description": "How the rate on this product should be read.",
+          "enum": [
+            "APY",
+            "APR",
+            "INTRO_APR",
+            "VARIABLE_APR",
+            "INTEREST_RATE"
+          ]
+        },
+        "ratePercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "rateMinPercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "rateMaxPercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "rateNote": {
+          "type": "string"
+        },
+        "monthlyFeeCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "annualFeeCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "minimumOpeningDepositCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "minimumBalanceCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "termMonths": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1200
+        },
+        "termNote": {
+          "type": "string"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "The name of the attribute."
+              },
+              "value": {
+                "type": "string",
+                "description": "The value of the attribute."
+              }
+            },
+            "required": [
+              "label",
+              "value"
+            ]
+          }
+        },
+        "effectiveDate": {
+          "type": "string",
+          "description": "ISO 8601 date-time string",
+          "format": "date-time"
+        },
+        "displayOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999
+        }
+      },
+      "required": [
+        "bankId",
+        "category",
+        "type",
+        "name"
+      ]
+    }
+  },
+  {
+    "name": "bankProduct_listForOwnedBank",
+    "description": "This endpoint allows a bank's verified representatives to retrieve every product on the bank's profile, including drafts and archived entries that the public list omits. Use it to reconcile your own catalog against Moon Banking before syncing changes. You must be an approved representative of the bank.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "bankId": {
+          "type": "string",
+          "description": "The bank's auto-generated unique identifier."
+        }
+      },
+      "required": [
+        "bankId"
+      ]
+    }
+  },
+  {
+    "name": "bankProduct_update",
+    "description": "This endpoint allows a bank's verified representatives to replace a product's details. Every writable field is overwritten, so send the product's full state rather than only the fields that changed. This is the endpoint to call when rates or fees move. You must be an approved representative of the bank.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "bankId": {
+          "type": "string",
+          "description": "The bank's auto-generated unique identifier."
+        },
+        "id": {
+          "type": "string",
+          "description": "The product's auto-generated unique identifier."
+        },
+        "category": {
+          "type": "string",
+          "description": "The broad category the product belongs to. Drives how the product is grouped on the bank's page.",
+          "enum": [
+            "ACCOUNT",
+            "CARD",
+            "LOAN",
+            "INVESTMENT",
+            "INSURANCE",
+            "SERVICE",
+            "OTHER"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "description": "The specific kind of product.",
+          "enum": [
+            "CHECKING_ACCOUNT",
+            "SAVINGS_ACCOUNT",
+            "MONEY_MARKET_ACCOUNT",
+            "CERTIFICATE_OF_DEPOSIT",
+            "BUSINESS_CHECKING_ACCOUNT",
+            "BUSINESS_SAVINGS_ACCOUNT",
+            "YOUTH_ACCOUNT",
+            "CREDIT_CARD",
+            "DEBIT_CARD",
+            "BUSINESS_CREDIT_CARD",
+            "SECURED_CREDIT_CARD",
+            "PREPAID_CARD",
+            "PERSONAL_LOAN",
+            "AUTO_LOAN",
+            "MORTGAGE",
+            "HOME_EQUITY_LOAN",
+            "HOME_EQUITY_LINE_OF_CREDIT",
+            "STUDENT_LOAN",
+            "BUSINESS_LOAN",
+            "LINE_OF_CREDIT",
+            "CONSTRUCTION_LOAN",
+            "BROKERAGE_ACCOUNT",
+            "RETIREMENT_ACCOUNT",
+            "WEALTH_MANAGEMENT",
+            "INSURANCE",
+            "WIRE_TRANSFER",
+            "FOREIGN_EXCHANGE",
+            "MERCHANT_SERVICES",
+            "TREASURY_MANAGEMENT",
+            "SAFE_DEPOSIT_BOX",
+            "ONLINE_BANKING",
+            "MOBILE_BANKING",
+            "CRYPTO_SERVICE",
+            "OTHER"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "The product's marketing name."
+        },
+        "summary": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "Whether the product is a draft, published to the bank's page, or archived.",
+          "enum": [
+            "DRAFT",
+            "PUBLISHED",
+            "ARCHIVED"
+          ]
+        },
+        "rateType": {
+          "type": "string",
+          "description": "How the rate on this product should be read.",
+          "enum": [
+            "APY",
+            "APR",
+            "INTRO_APR",
+            "VARIABLE_APR",
+            "INTEREST_RATE"
+          ]
+        },
+        "ratePercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "rateMinPercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "rateMaxPercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "rateNote": {
+          "type": "string"
+        },
+        "monthlyFeeCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "annualFeeCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "minimumOpeningDepositCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "minimumBalanceCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "termMonths": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1200
+        },
+        "termNote": {
+          "type": "string"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "The name of the attribute."
+              },
+              "value": {
+                "type": "string",
+                "description": "The value of the attribute."
+              }
+            },
+            "required": [
+              "label",
+              "value"
+            ]
+          }
+        },
+        "effectiveDate": {
+          "type": "string",
+          "description": "ISO 8601 date-time string",
+          "format": "date-time"
+        },
+        "displayOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999
+        }
+      },
+      "required": [
+        "bankId",
+        "id",
+        "category",
+        "type",
+        "name"
+      ]
+    }
+  },
+  {
+    "name": "bankProduct_delete",
+    "description": "This endpoint allows a bank's verified representatives to permanently remove a product from the bank's profile. This cannot be undone. To retire a product while keeping its record, set its status to `ARCHIVED` instead. You must be an approved representative of the bank.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "bankId": {
+          "type": "string",
+          "description": "The bank's auto-generated unique identifier."
+        },
+        "id": {
+          "type": "string",
+          "description": "The product's auto-generated unique identifier."
+        }
+      },
+      "required": [
+        "bankId",
+        "id"
+      ]
+    }
+  },
+  {
+    "name": "bankProduct_setStatus",
+    "description": "This endpoint allows a bank's verified representatives to move a product between draft, published, and archived without resubmitting its details. Archiving is the reversible way to retire a product you may bring back; deleting is permanent. You must be an approved representative of the bank.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "bankId": {
+          "type": "string",
+          "description": "The bank's auto-generated unique identifier."
+        },
+        "id": {
+          "type": "string",
+          "description": "The product's auto-generated unique identifier."
+        },
+        "status": {
+          "type": "string",
+          "description": "Whether the product is a draft, published to the bank's page, or archived.",
+          "enum": [
+            "DRAFT",
+            "PUBLISHED",
+            "ARCHIVED"
+          ]
+        }
+      },
+      "required": [
+        "bankId",
+        "id",
+        "status"
+      ]
+    }
+  },
+  {
     "name": "country_get",
     "description": "This endpoint allows you to retrieve a paginated list of all countries. By default, a maximum of ten countries are shown per page. You can search countries by name or 2-letter code, sort them by various fields, and include related data like scores.",
     "inputSchema": {
@@ -886,6 +1430,210 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               include: args.include,
             },
 
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bankProduct_list': {
+        const result = await apiCall(
+          'GET',
+          `/bank-products`,
+          {
+            params: {
+              limit: args.limit,
+              starting_after: args.starting_after,
+              ending_before: args.ending_before,
+              bankId: args.bankId,
+              countryCode: args.countryCode,
+              categories: args.categories,
+              types: args.types,
+              currency: args.currency,
+              search: args.search,
+              minRatePercent: args.minRatePercent,
+              maxRatePercent: args.maxRatePercent,
+              sortBy: args.sortBy,
+              sortOrder: args.sortOrder,
+            },
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bankProduct_listByBank': {
+        const result = await apiCall(
+          'GET',
+          `/banks/${args.bankId}/products`,
+          {
+
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bankProduct_create': {
+        const result = await apiCall(
+          'POST',
+          `/banks/${args.bankId}/products`,
+          {
+
+            body: {
+              category: args.category,
+              type: args.type,
+              name: args.name,
+              summary: args.summary,
+              details: args.details,
+              url: args.url,
+              currency: args.currency,
+              status: args.status,
+              rateType: args.rateType,
+              ratePercent: args.ratePercent,
+              rateMinPercent: args.rateMinPercent,
+              rateMaxPercent: args.rateMaxPercent,
+              rateNote: args.rateNote,
+              monthlyFeeCents: args.monthlyFeeCents,
+              annualFeeCents: args.annualFeeCents,
+              minimumOpeningDepositCents: args.minimumOpeningDepositCents,
+              minimumBalanceCents: args.minimumBalanceCents,
+              termMonths: args.termMonths,
+              termNote: args.termNote,
+              features: args.features,
+              attributes: args.attributes,
+              effectiveDate: args.effectiveDate,
+              displayOrder: args.displayOrder,
+            },
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bankProduct_listForOwnedBank': {
+        const result = await apiCall(
+          'GET',
+          `/banks/${args.bankId}/managed-products`,
+          {
+
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bankProduct_update': {
+        const result = await apiCall(
+          'PUT',
+          `/banks/${args.bankId}/products/${args.id}`,
+          {
+
+            body: {
+              category: args.category,
+              type: args.type,
+              name: args.name,
+              summary: args.summary,
+              details: args.details,
+              url: args.url,
+              currency: args.currency,
+              status: args.status,
+              rateType: args.rateType,
+              ratePercent: args.ratePercent,
+              rateMinPercent: args.rateMinPercent,
+              rateMaxPercent: args.rateMaxPercent,
+              rateNote: args.rateNote,
+              monthlyFeeCents: args.monthlyFeeCents,
+              annualFeeCents: args.annualFeeCents,
+              minimumOpeningDepositCents: args.minimumOpeningDepositCents,
+              minimumBalanceCents: args.minimumBalanceCents,
+              termMonths: args.termMonths,
+              termNote: args.termNote,
+              features: args.features,
+              attributes: args.attributes,
+              effectiveDate: args.effectiveDate,
+              displayOrder: args.displayOrder,
+            },
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bankProduct_delete': {
+        const result = await apiCall(
+          'DELETE',
+          `/banks/${args.bankId}/products/${args.id}`,
+          {
+
+
+          },
+        );
+        
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'bankProduct_setStatus': {
+        const result = await apiCall(
+          'PUT',
+          `/banks/${args.bankId}/products/${args.id}/status`,
+          {
+
+            body: {
+              status: args.status,
+            },
           },
         );
         
