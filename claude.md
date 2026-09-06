@@ -72,7 +72,7 @@ Claude should call tools like `bank_semanticSearch` or `country_getByCountryCode
 ## Troubleshooting
 
 - **Connector shows as disconnected.** Click the connector in Settings and re-run the auth flow. If your access token expired Claude will need to re-authenticate.
-- **`Tool list is empty`** Make sure your account has been granted Pro access at moonbanking.com. The MCP endpoint requires a Pro subscription.
+- **`Tool list is empty`** Re-run the auth flow so the connector picks up a valid token. Every tool is listed regardless of your plan, so a plan problem surfaces as a 403 when a tool is called rather than as an empty list.
 - **Cannot add connector.** Claude.ai's custom connectors are gated to paid plans. Claude Desktop has fewer restrictions.
 
 

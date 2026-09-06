@@ -38,7 +38,7 @@ MOON_BANKING_API_KEY="Bearer mb_sk_..." \
 - **Successful tool call** — confirms upstream API auth is working.
 - **Resources / Prompts tabs empty** — expected; Moon Banking exposes tools only.
 
-If the inspector shows `401 Unauthorized` or `403 Forbidden`, refer to the troubleshooting sections of the client-specific pages; the root cause is usually a Moon Banking account that isn't on the Pro plan, or a stale OAuth token in the inspector's cache (clear it with the **Disconnect** button).
+If the inspector shows `401 Unauthorized` or `403 Forbidden`, refer to the troubleshooting sections of the client-specific pages; the root cause is usually a stale OAuth token in the inspector's cache (clear it with the **Disconnect** button), or an account that isn't on the Pro plan calling one of the Pro-only tools.
 
 
 ## Available tools
