@@ -64,7 +64,7 @@ If it responds using the `bank_get` and `country_get` tools, the connection is w
 
 - **Tools list is empty.** Cursor may have cached an unauthenticated session. Remove the entry from `mcp.json`, restart Cursor, and re-add it. If the issue persists, run `npx @modelcontextprotocol/inspector` against `https://mcp.moonbanking.com/mcp` to confirm the server is reachable from your network.
 - **OAuth window closes immediately.** Make sure your default browser is signed in to Moon Banking, or sign in first at [moonbanking.com](https://moonbanking.com) and retry.
-- **403 errors after sign-in.** Your Moon Banking account must be on a Pro plan to use the MCP API. [Upgrade to Pro](https://moonbanking.com/pro).
+- **403 errors after sign-in.** Most tools require a Moon Banking Pro plan, and the error names the endpoint that was refused. Bank product management is the exception: an approved representative of a bank can use those tools on the free tier. [Upgrade to Pro](https://moonbanking.com/pro).
 
 
 ## Available tools

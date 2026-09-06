@@ -73,7 +73,7 @@ const apiCall = async (
 const tools = [
   {
     "name": "bank_getByHostname",
-    "description": "This endpoint allows you to retrieve banks by hostname. It will return up to one bank per country that matches the provided hostname. The hostname is normalized (www. prefix removed if present) and matched against both the primary hostname and alternative hostnames.",
+    "description": "Retrieve banks by hostname, up to one bank per country. The hostname is normalized (www. prefix removed if present) and matched against both the primary hostname and alternative hostnames.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -97,7 +97,7 @@ const tools = [
   },
   {
     "name": "bank_get",
-    "description": "This endpoint allows you to retrieve a paginated list of all banks. By default, a maximum of ten banks are shown per page. You can search banks by name, filter by country, sort them by various fields, and include related data like scores and country information.",
+    "description": "Retrieve a paginated list of banks, ten per page by default. Search by name, filter by country, sort by various fields, and include related data such as scores and country information.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -216,7 +216,7 @@ const tools = [
   },
   {
     "name": "bank_getById",
-    "description": "This endpoint allows you to retrieve a specific bank by providing the bank ID. You can include related data like scores and country information in the response.",
+    "description": "Retrieve a bank by ID. Optionally include related data such as scores and country information.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -236,7 +236,7 @@ const tools = [
   },
   {
     "name": "bank_semanticSearch",
-    "description": "Search for banks by describing what you are looking for in natural language. This searches across bank descriptions including services offered, history, location, unique features, and institution type. Use this when the user asks about banks with specific characteristics, services, or qualities.",
+    "description": "Search for banks by describing what you are looking for in natural language. Searches across bank descriptions including services offered, history, location, unique features, and institution type. Use when the user asks about banks with specific characteristics, services, or qualities.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -261,7 +261,7 @@ const tools = [
   },
   {
     "name": "bankVote_get",
-    "description": "This endpoint allows you to retrieve a paginated list of bank votes. You can filter by bank ID, category, country, vote type (upvote or downvote), and other parameters.",
+    "description": "Retrieve a paginated list of bank votes. Filter by bank ID, category, country, vote type (upvote or downvote), and other parameters.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -320,7 +320,7 @@ const tools = [
   },
   {
     "name": "bankProduct_list",
-    "description": "This endpoint allows you to retrieve a paginated list of published bank products across all banks, so you can compare rates and terms between institutions. Filter by bank, country, category, type, currency, and rate, and sort by rate to find the most competitive offers. Products are supplied and maintained by each bank's own verified representatives. Every product includes the name of the bank that offers it.",
+    "description": "Retrieve a paginated list of published bank products across all banks to compare rates and terms between institutions. Filter by bank, country, category, type, currency, and rate, and sort by rate to find the most competitive offers. Products are supplied and maintained by each bank's own verified representatives. Every product includes the name of the bank that offers it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -395,7 +395,7 @@ const tools = [
   },
   {
     "name": "bankProduct_listByBank",
-    "description": "This endpoint allows you to retrieve the products and services a bank publishes on its Moon Banking profile, such as deposit accounts, loans, and credit cards. Products are supplied and maintained by the bank's own verified representatives. Only published products are returned; drafts, archived entries, and anything removed by the Moon Banking team are excluded.",
+    "description": "Retrieve the products and services a bank publishes on its Moon Banking profile, such as deposit accounts, loans, and credit cards. Products are supplied and maintained by the bank's own verified representatives. Only published products are returned; drafts, archived entries, and anything removed by the Moon Banking team are excluded.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -411,7 +411,7 @@ const tools = [
   },
   {
     "name": "bankProduct_create",
-    "description": "This endpoint allows a bank's verified representatives to add a product to the bank's profile. Products default to published and appear on the bank's public page immediately. Pass `status` as `DRAFT` to stage a product without publishing it. You must be an approved representative of the bank.",
+    "description": "Add a product to the bank's profile. Products default to published and appear on the bank's public page immediately. Pass `status` as `DRAFT` to stage a product without publishing it. Requires an approved representative of the bank.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -601,7 +601,7 @@ const tools = [
   },
   {
     "name": "bankProduct_listForOwnedBank",
-    "description": "This endpoint allows a bank's verified representatives to retrieve every product on the bank's profile, including drafts and archived entries that the public list omits. Use it to reconcile your own catalog against Moon Banking before syncing changes. You must be an approved representative of the bank.",
+    "description": "Retrieve every product on the bank's profile, including drafts and archived entries that the public list omits. Use it to reconcile your own catalog against Moon Banking before syncing changes. Requires an approved representative of the bank.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -617,7 +617,7 @@ const tools = [
   },
   {
     "name": "bankProduct_update",
-    "description": "This endpoint allows a bank's verified representatives to replace a product's details. Every writable field is overwritten, so send the product's full state rather than only the fields that changed. This is the endpoint to call when rates or fees move. You must be an approved representative of the bank.",
+    "description": "Replace a product's details. Every writable field is overwritten, so send the product's full state rather than only the fields that changed. Call this when rates or fees move. Requires an approved representative of the bank.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -812,7 +812,7 @@ const tools = [
   },
   {
     "name": "bankProduct_delete",
-    "description": "This endpoint allows a bank's verified representatives to permanently remove a product from the bank's profile. This cannot be undone. To retire a product while keeping its record, set its status to `ARCHIVED` instead. You must be an approved representative of the bank.",
+    "description": "Permanently remove a product from the bank's profile. This cannot be undone. To retire a product while keeping its record, set its status to `ARCHIVED` instead. Requires an approved representative of the bank.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -833,7 +833,7 @@ const tools = [
   },
   {
     "name": "bankProduct_setStatus",
-    "description": "This endpoint allows a bank's verified representatives to move a product between draft, published, and archived without resubmitting its details. Archiving is the reversible way to retire a product you may bring back; deleting is permanent. You must be an approved representative of the bank.",
+    "description": "Move a product between draft, published, and archived without resubmitting its details. Archiving is the reversible way to retire a product you may bring back; deleting is permanent. Requires an approved representative of the bank.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -864,7 +864,7 @@ const tools = [
   },
   {
     "name": "country_get",
-    "description": "This endpoint allows you to retrieve a paginated list of all countries. By default, a maximum of ten countries are shown per page. You can search countries by name or 2-letter code, sort them by various fields, and include related data like scores.",
+    "description": "Retrieve a paginated list of countries, ten per page by default. Search by name or 2-letter code, sort by various fields, and include related data such as scores.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -975,7 +975,7 @@ const tools = [
   },
   {
     "name": "country_getByCountryCode",
-    "description": "This endpoint allows you to retrieve a specific country by providing the 2-letter ISO country code. You can include related data like scores in the response.",
+    "description": "Retrieve a country by its 2-letter ISO code. Optionally include related data such as scores.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -995,7 +995,7 @@ const tools = [
   },
   {
     "name": "story_get",
-    "description": "This endpoint allows you to retrieve a paginated list of all stories. By default, a maximum of ten stories are shown per page. You can search stories by text content, filter by bank ID, sort them by various fields, and include related data like bank and country information.",
+    "description": "Retrieve a paginated list of stories, ten per page by default. Search by text content, filter by bank ID, sort by various fields, and include related data such as bank and country information.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1055,7 +1055,7 @@ const tools = [
   },
   {
     "name": "story_getById",
-    "description": "This endpoint allows you to retrieve a specific story by providing the story ID. You can include related data like bank and country information in the response.",
+    "description": "Retrieve a story by ID. Optionally include related data such as bank and country information.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1075,7 +1075,7 @@ const tools = [
   },
   {
     "name": "world_getOverview",
-    "description": "This endpoint allows you to retrieve global overview data that aggregates banks votes, stories and other data across all banks in all countries. You can include related data like scores in the response.",
+    "description": "Retrieve global overview data aggregating bank votes, stories, and other data across all banks in all countries. Optionally include related data such as scores.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1088,7 +1088,7 @@ const tools = [
   },
   {
     "name": "market_get",
-    "description": "This endpoint allows you to retrieve a paginated list of markets (e.g. stock exchanges). You can search by name or code, filter by exact code, country, or market type, and sort the results.",
+    "description": "Retrieve a paginated list of markets, such as stock exchanges. Search by name or code, filter by exact code, country, or market type, and sort the results.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1148,7 +1148,7 @@ const tools = [
   },
   {
     "name": "market_getById",
-    "description": "This endpoint allows you to retrieve a specific market (e.g. stock exchange) by providing the market id.",
+    "description": "Retrieve a market, such as a stock exchange, by ID.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1164,7 +1164,7 @@ const tools = [
   },
   {
     "name": "stock_get",
-    "description": "This endpoint allows you to retrieve a paginated list of stock listings. You can search by ticker symbol, filter by exact symbol, market, bank, or primary-listing status, and sort the results.",
+    "description": "Retrieve a paginated list of stock listings. Search by ticker symbol, filter by exact symbol, market, bank, or primary-listing status, and sort the results.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1228,7 +1228,7 @@ const tools = [
   },
   {
     "name": "stock_getById",
-    "description": "This endpoint allows you to retrieve a specific stock listing by providing the stock id. You can optionally include the associated `market` and/or `bank` as nested objects.",
+    "description": "Retrieve a stock listing by ID. Optionally include the associated `market` and/or `bank` as nested objects.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1248,7 +1248,7 @@ const tools = [
   },
   {
     "name": "search_get",
-    "description": "Search across banks, countries, stories, and stocks. You can specify which entities to search using the include parameter. If no include value is provided, all entities will be searched. Banks are also matched on the ticker symbol of their stock listings, so searching `BAC` returns Bank of America.",
+    "description": "Search across banks, countries, stories, and stocks. Use the include parameter to specify which entities to search; if no include value is provided, all entities are searched. Banks are also matched on the ticker symbol of their stock listings, so searching `BAC` returns Bank of America.",
     "inputSchema": {
       "type": "object",
       "properties": {

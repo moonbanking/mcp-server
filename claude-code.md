@@ -52,7 +52,7 @@ You should see `moonbanking` listed with a connection status of `connected`. The
 
 - **`Failed to authenticate`** Run `claude mcp remove moonbanking` and re-add to clear the cached token.
 - **No tools available.** Run `claude mcp list` — if the server appears with a red status, run `claude mcp logs moonbanking` to inspect the error.
-- **Pro plan required.** The MCP API rejects non-Pro Moon Banking accounts; [upgrade to Pro](https://moonbanking.com/pro).
+- **Pro plan required for most tools.** A non-Pro account can still use the bank product management tools, provided it represents an approved bank; every other tool returns 403. [Upgrade to Pro](https://moonbanking.com/pro).
 
 
 ## Available tools
